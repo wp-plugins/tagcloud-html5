@@ -18,6 +18,7 @@ Tag cloud on html5 steroids based on tagcanvas-JS from www.goat1000.com
 
 == Screenshots ==
 
+1. This is how it will look like on a standard white sidebar
 
 == Changelog ==
 
