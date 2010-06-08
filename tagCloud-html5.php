@@ -3,7 +3,7 @@
 Plugin Name: TagCloud html5
 Plugin URI: http://www.derflash.de
 Description: Tag cloud on html5 steroids based on tagcanvas-JS from www.goat1000.com
-Version: 1.0
+Version: 1.1
 Author: Bjoern Teichmann
 Author URI: http://www.derflash.de
 Update Server: http://www.derflash.de
@@ -15,9 +15,9 @@ License: LGPL v3
 add_action('wp_head', 'tagCloudHeadCB');
 function tagCloudHeadCB() {
 	if (!strpos($_SERVER['HTTP_USER_AGENT'],'iPad')) { ?>
-    
-	<script src="<?php echo get_option('siteurl'); ?>/wp-content/plugins/tagcloud-html5/tagcanvas.js" type="text/javascript"></script>
-    
+
+	<script src="<?php echo get_option('siteurl'); ?>/wp-content/plugins/tagcloud-html5/tagcanvas.js" type="text/javascript"></script>	
+	
     <script type="text/javascript">
 	<!--
 	
@@ -28,10 +28,14 @@ function tagCloudHeadCB() {
 	}
 	
 	function tweetfeed_load() {
-		TagCanvas.maxSpeed = 0.035;
-		TagCanvas.textColour = '#2d83d5';
-		TagCanvas.outlineColour = '#2d83d5';
-	    TagCanvas.Start('tagCloudh5');
+		// IE8 doesn't support html5 canvas, so better just "try" to show it (else show standard tag widget)
+		try {
+			TagCanvas.maxSpeed = 0.035;
+			TagCanvas.textColour = '#2d83d5';
+			TagCanvas.outlineColour = '#2d83d5';
+		    TagCanvas.Start('tagCloudh5');
+	    } catch(err) {
+	    }
 	}
 	
 	addLoadEvent(tweetfeed_load);
@@ -62,7 +66,7 @@ function widget_tagCloud() {
 	<h2 class="title">Tag Cloud</h2>
 	<?php
 	
-	// show standard tag cloud on ipad until the h5 cloud is fixed
+	// show standard tag widget on ipad until the html5 cloud is fixed
 	if (strpos($_SERVER['HTTP_USER_AGENT'],'iPad')) { ?>
 		<div width="260" height="260">
 			<?php wp_tag_cloud(); ?>
